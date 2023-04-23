@@ -1,3 +1,5 @@
+"use client";
+
 import MaterialReactTable from "material-react-table";
 import type { MRT_ColumnDef } from "material-react-table";
 import { useMemo } from "react";
