@@ -1,15 +1,19 @@
+import { notFound } from 'next/navigation'
 import type { FC } from 'react'
-import type { QiitaItem } from './types'
+import { useQiitaItem } from './hooks'
 
 type QiitaItemProps = {
-  item: QiitaItem
+  id: string
 }
 
-const QiitaItemDetail: FC<QiitaItemProps> = ({ item }) => {
-  const { title } = item
+const QiitaItemDetail: FC<QiitaItemProps> = ({ id }) => {
+  const item = useQiitaItem(id)
+  if (!item) {
+    notFound()
+  }
   return (
     <div>
-      <h1>{title}</h1>
+      <h1>{item.title}</h1>
     </div>
   )
 }

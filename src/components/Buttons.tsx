@@ -5,16 +5,21 @@ import type { FC } from 'react'
 
 type ArticleLinkButtonProps = {
   link: string
+  actionFn?: () => void
   tooltip?: string
 }
 
 export const ArticleLinkButton: FC<ArticleLinkButtonProps> = ({
   link,
+  actionFn,
   tooltip,
 }) => {
   const router = useRouter()
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    if (actionFn) {
+      actionFn()
+    }
     router.push(link)
   }
   return (

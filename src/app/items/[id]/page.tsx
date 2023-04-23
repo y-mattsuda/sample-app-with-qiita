@@ -1,3 +1,7 @@
+'use client'
+
+import QiitaItemDetail from '@/features/qiita-items/QiitaItem'
+
 type ItemPageProps = {
   params: {
     id: string
@@ -5,5 +9,5 @@ type ItemPageProps = {
 }
 
 export default function Item({ params: { id } }: ItemPageProps) {
-  return <p>This is item {id} page</p>
+  return <QiitaItemDetail id={id} />
 }
