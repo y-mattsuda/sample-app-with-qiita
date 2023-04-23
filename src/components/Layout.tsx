@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-import type { FC, ReactNode } from "react";
-import Header from "./Header";
+import type { FC, ReactNode } from 'react'
+import Header from './Header'
 
 export type LayoutProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
@@ -13,7 +13,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       <Header title="Sample App with Qiita" />
       {children}
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

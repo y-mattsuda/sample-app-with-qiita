@@ -1,9 +1,9 @@
 type ItemPageProps = {
   params: {
-    id: string;
-  };
-};
+    id: string
+  }
+}
 
 export default function Item({ params: { id } }: ItemPageProps) {
-  return <p>This is item {id} page</p>;
+  return <p>This is item {id} page</p>
 }

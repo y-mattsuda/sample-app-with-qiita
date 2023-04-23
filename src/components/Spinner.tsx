@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import { Box, CircularProgress } from "@mui/material";
-import { FC } from "react";
+import { Box, CircularProgress } from '@mui/material'
+import { FC } from 'react'
 
 export type SpinnerProps = {
-  size: number | string;
-};
+  size: number | string
+}
 
 const Spinner: FC<SpinnerProps> = ({ size }) => {
   return (
@@ -18,7 +18,7 @@ const Spinner: FC<SpinnerProps> = ({ size }) => {
     >
       <CircularProgress size={size} />
     </Box>
-  );
-};
+  )
+}
 
-export default Spinner;
+export default Spinner

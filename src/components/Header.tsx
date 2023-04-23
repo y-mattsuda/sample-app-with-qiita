@@ -1,9 +1,9 @@
-"use client";
+'use client'
 
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import React from "react";
-import { GITHUB_REPO_URL } from "@/constants";
+import { GITHUB_REPO_URL } from '@/constants'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import { AppBar, IconButton, Toolbar, Typography } from '@mui/material'
+import React from 'react'
 
 const GitHubLink = () => {
   return (
@@ -15,12 +15,12 @@ const GitHubLink = () => {
     >
       <GitHubIcon />
     </IconButton>
-  );
-};
+  )
+}
 
 export type HeaderProps = {
-  title: string;
-};
+  title: string
+}
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <GitHubLink />
       </Toolbar>
     </AppBar>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

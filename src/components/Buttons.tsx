@@ -1,27 +1,27 @@
-import { IconButton, Tooltip } from "@mui/material";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import type { FC } from "react";
-import { useRouter } from "next/navigation";
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
+import { IconButton, Tooltip } from '@mui/material'
+import { useRouter } from 'next/navigation'
+import type { FC } from 'react'
 
 type ArticleLinkButtonProps = {
-  link: string;
-  tooltip?: string;
-};
+  link: string
+  tooltip?: string
+}
 
 export const ArticleLinkButton: FC<ArticleLinkButtonProps> = ({
   link,
   tooltip,
 }) => {
-  const router = useRouter();
+  const router = useRouter()
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    router.push(link);
-  };
+    e.preventDefault()
+    router.push(link)
+  }
   return (
     <Tooltip title={tooltip}>
       <IconButton color="inherit" onClick={handleClick}>
         <ArticleOutlinedIcon />
       </IconButton>
     </Tooltip>
-  );
-};
+  )
+}
