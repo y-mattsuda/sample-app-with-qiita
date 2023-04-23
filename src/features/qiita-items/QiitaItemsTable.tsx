@@ -4,6 +4,7 @@ import DataTable from "@/components/DataTable";
 import type { MRT_ColumnDef } from "material-react-table";
 import { useQiitaItems } from "./hooks";
 import { ArticleLinkButton } from "@/components/Buttons";
+import Spinner from "@/components/Spinner";
 
 type QiitaItemsTableRow = {
   id: string;
@@ -15,9 +16,12 @@ type QiitaItemsTableRow = {
 type QiitaItemsTableColumn = MRT_ColumnDef<QiitaItemsTableRow>;
 
 const QiitaItemsTable = () => {
-  const { rawData, error } = useQiitaItems();
+  const { rawData, error, isLoading } = useQiitaItems();
   if (error) {
     return <div>error</div>;
+  }
+  if (isLoading) {
+    return <Spinner size={100} />;
   }
   const data: QiitaItemsTableRow[] = rawData.map((item) => ({
     id: item.id,

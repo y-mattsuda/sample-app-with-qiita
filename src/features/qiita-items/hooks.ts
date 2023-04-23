@@ -5,13 +5,10 @@ import type { QiitaItem } from "@/lib/types";
 const QIITA_API_URL = "https://qiita.com/api/v2";
 
 export const useQiitaItems = () => {
-  const { data, error } = useSWR<QiitaItem[]>(
+  const { data, error, isLoading } = useSWR<QiitaItem[]>(
     `${QIITA_API_URL}/items`,
-    fetcher,
-    {
-      suspense: true,
-    }
+    fetcher
   );
   const rawData = data as QiitaItem[];
-  return { rawData, error };
+  return { rawData, error, isLoading };
 };
