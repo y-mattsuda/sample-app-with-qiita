@@ -1,3 +1,9 @@
+import { ImageAvatar } from '@/components/Avatar'
+import Card from '@/components/Card'
+import Markdown from '@/components/Markdown'
+import { formatDate } from '@/lib'
+import LocalOfferIcon from '@mui/icons-material/LocalOffer'
+import { Box, Typography } from '@mui/material'
 import { notFound } from 'next/navigation'
 import type { FC } from 'react'
 import { useQiitaItem } from './hooks'
@@ -6,16 +12,76 @@ type QiitaItemProps = {
   id: string
 }
 
-const QiitaItemDetail: FC<QiitaItemProps> = ({ id }) => {
+type QiitaItemHeaderProps = {
+  userImageUrl: string
+  userId: string
+  createdAt: Date
+  updatedAt: Date
+  title: string
+  tags: string[]
+}
+
+type QiitaItemDetailProps = {
+  content: string
+}
+
+const QiitaItemHeader: FC<QiitaItemHeaderProps> = ({
+  userImageUrl,
+  userId,
+  createdAt,
+  updatedAt,
+  title,
+  tags,
+}) => {
+  return (
+    <>
+      <Box display="flex" alignItems="center">
+        <ImageAvatar
+          src={userImageUrl}
+          alt={userId}
+          sx={{ width: 24, height: 24 }}
+        />
+        <Box ml={1} height={20}>
+          <b>@{userId}</b>
+        </Box>
+      </Box>
+      <Box color="gray" fontSize={14}>
+        投稿日 {formatDate(createdAt, 'yyyy年MM月dd日')}　更新日{' '}
+        {formatDate(updatedAt, 'yyyy年MM月dd日')}
+      </Box>
+      <Typography variant="h1" fontSize={40} mt={1}>
+        <b>{title}</b>
+      </Typography>
+      <Box display="flex" alignItems="center" mt={1}>
+        <LocalOfferIcon sx={{ fontSize: 16 }} />
+        <Box ml={1}>{tags.join(', ')}</Box>
+      </Box>
+    </>
+  )
+}
+
+const QiitaItemDetail: FC<QiitaItemDetailProps> = ({ content }) => {
+  return <Markdown content={content} />
+}
+
+const QiitaItem: FC<QiitaItemProps> = ({ id }) => {
   const item = useQiitaItem(id)
   if (!item) {
     notFound()
   }
   return (
-    <div>
-      <h1>{item.title}</h1>
-    </div>
+    <Card>
+      <QiitaItemHeader
+        userImageUrl={item.user.profile_image_url}
+        userId={item.user.id}
+        createdAt={new Date(item.created_at)}
+        updatedAt={new Date(item.updated_at)}
+        title={item.title}
+        tags={item.tags.map((tag) => tag.name)}
+      />
+      <QiitaItemDetail content={item.body} />
+    </Card>
   )
 }
 
-export default QiitaItemDetail
+export default QiitaItem
