@@ -1,3 +1,5 @@
+'use client'
+
 import { ImageAvatar } from '@/components/Avatar'
 import Card from '@/components/Card'
 import Markdown from '@/components/Markdown'

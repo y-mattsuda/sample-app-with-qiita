@@ -4,7 +4,12 @@ import { ArticleLinkButton } from '@/components/Buttons'
 import DataTable from '@/components/DataTable'
 import Spinner from '@/components/Spinner'
 import type { MRT_ColumnDef } from 'material-react-table'
+import { FC } from 'react'
 import { useQiitaItems, useQiitaItemsAtom } from './hooks'
+
+type QiitaItemsTableProps = {
+  path: string
+}
 
 type QiitaItemsTableRow = {
   id: string
@@ -15,7 +20,7 @@ type QiitaItemsTableRow = {
 
 type QiitaItemsTableColumn = MRT_ColumnDef<QiitaItemsTableRow>
 
-const QiitaItemsTable = () => {
+const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path }) => {
   const { rawData, error, isLoading } = useQiitaItems()
   const { qiitaItems, setQiitaItems } = useQiitaItemsAtom()
 
@@ -66,7 +71,7 @@ const QiitaItemsTable = () => {
       accessorFn(row) {
         return (
           <ArticleLinkButton
-            link={`/items/${row.id}`}
+            link={`${path}/${row.id}`}
             actionFn={() => handleArticleLinkButtonClick(row.id)}
             tooltip="記事詳細ページへ移動します"
           />

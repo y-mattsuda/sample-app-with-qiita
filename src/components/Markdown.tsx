@@ -4,6 +4,8 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHilighter } from 'react-syntax-highlighter'
 import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import rehypeKatex from 'rehype-katex'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 
@@ -16,7 +18,7 @@ const Markdown: FC<MarkdownProps> = ({ content }) => {
     <ReactMarkdown
       children={content}
       remarkPlugins={[remarkGfm, remarkMath]}
-      rehypePlugins={[rehypeKatex]}
+      rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeKatex]}
       components={{
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '')

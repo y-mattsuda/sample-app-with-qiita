@@ -3,7 +3,7 @@ import QiitaItemsTable from '@/features/qiita-items/QiitaItemsTable'
 export default function Items() {
   return (
     <div>
-      <QiitaItemsTable />
+      <QiitaItemsTable path="/items" />
     </div>
   )
 }

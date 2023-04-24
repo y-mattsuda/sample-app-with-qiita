@@ -1,5 +1,3 @@
-'use client'
-
 import QiitaItemDetail from '@/features/qiita-items/QiitaItem'
 
 type ItemPageProps = {
