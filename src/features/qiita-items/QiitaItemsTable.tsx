@@ -4,13 +4,19 @@ import { ArticleLinkButton } from '@/components/Buttons'
 import DataTable from '@/components/DataTable'
 import SearchForm from '@/components/SearchForm'
 import Spinner from '@/components/Spinner'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import type { MRT_ColumnDef } from 'material-react-table'
-import { FC, useState } from 'react'
-import { useQiitaItems, useQiitaItemsAtom } from './hooks'
+import { FC } from 'react'
+import {
+  useQiitaItems,
+  useQiitaItemsAtom,
+  useQiitaItemsSearchQuery,
+} from './hooks'
+import type { QiitaItem } from './types'
 
 type QiitaItemsTableProps = {
   path: string
+  initItems: QiitaItem[]
 }
 
 type QiitaItemsTableRow = {
@@ -22,16 +28,20 @@ type QiitaItemsTableRow = {
 
 type QiitaItemsTableColumn = MRT_ColumnDef<QiitaItemsTableRow>
 
-const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path }) => {
-  const [query, setQuery] = useState('')
-  const { rawData, error, isLoading } = useQiitaItems(query)
+const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path, initItems }) => {
+  const [query, setQuery] = useQiitaItemsSearchQuery()
+  const { data, error } = useQiitaItems(query, initItems)
   const { qiitaItems, setQiitaItems } = useQiitaItemsAtom()
 
-  if (error) {
-    return <div>error</div>
-  }
-  if (isLoading) {
+  if (data === undefined) {
     return <Spinner size={100} />
+  }
+  let items: QiitaItem[]
+  if (error) {
+    console.error(error)
+    items = []
+  } else {
+    items = data
   }
 
   // 検索が実行されたらqueryを更新 -> SWRによって自動的にdata fetch
@@ -41,7 +51,7 @@ const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path }) => {
 
   // 記事詳細ページへの移動ボタンが押されたら、その記事のデータをatomに追加する
   const handleArticleLinkButtonClick = (id: string) => {
-    const item = rawData.find((i) => i.id === id)
+    const item = items.find((i) => i.id === id)
     if (item) {
       const exist = qiitaItems.some((i) => i.id === item.id)
       if (!exist) {
@@ -50,7 +60,7 @@ const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path }) => {
     }
   }
 
-  const data: QiitaItemsTableRow[] = rawData.map((item) => ({
+  const tableData: QiitaItemsTableRow[] = items.map((item) => ({
     id: item.id,
     title: item.title,
     userId: item.user.id,
@@ -95,12 +105,35 @@ const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path }) => {
       <Box my={2}>
         <SearchForm handleSearch={handleSearch} />
       </Box>
-      {query && (
-        <Box my={2}>
-          <p>{`${query}の検索結果だよ!!!`}</p>
-        </Box>
+      {error && (
+        <Typography
+          my={2}
+          p={1}
+          borderRadius={4}
+          width="fit-content"
+          fontSize={16}
+          bgcolor="error.main"
+          color="white"
+        >
+          エラーが発生しました。Qiita APIの制限に達した可能性があります。
+          <br />
+          アクセストークンを設定している場合は、アクセストークンを確認してください。
+        </Typography>
       )}
-      <DataTable data={data} columns={columns} />
+      {query && (
+        <Typography
+          my={2}
+          p={1}
+          borderRadius={4}
+          width="fit-content"
+          fontSize={16}
+          bgcolor="primary.light"
+          color="white"
+        >
+          「{query}」の検索結果を表示しています
+        </Typography>
+      )}
+      <DataTable data={tableData} columns={columns} />
     </>
   )
 }

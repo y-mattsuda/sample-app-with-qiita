@@ -18,6 +18,7 @@ const config: StorybookConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@/constants': path.resolve(__dirname, '../src/constants'),
+      '@/hooks': path.resolve(__dirname, '../src/hooks'),
     }
     return config
   },
