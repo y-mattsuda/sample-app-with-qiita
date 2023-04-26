@@ -2,9 +2,11 @@
 
 import { ArticleLinkButton } from '@/components/Buttons'
 import DataTable from '@/components/DataTable'
+import SearchForm from '@/components/SearchForm'
 import Spinner from '@/components/Spinner'
+import { Box } from '@mui/material'
 import type { MRT_ColumnDef } from 'material-react-table'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useQiitaItems, useQiitaItemsAtom } from './hooks'
 
 type QiitaItemsTableProps = {
@@ -21,7 +23,8 @@ type QiitaItemsTableRow = {
 type QiitaItemsTableColumn = MRT_ColumnDef<QiitaItemsTableRow>
 
 const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path }) => {
-  const { rawData, error, isLoading } = useQiitaItems()
+  const [query, setQuery] = useState('')
+  const { rawData, error, isLoading } = useQiitaItems(query)
   const { qiitaItems, setQiitaItems } = useQiitaItemsAtom()
 
   if (error) {
@@ -29,6 +32,11 @@ const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path }) => {
   }
   if (isLoading) {
     return <Spinner size={100} />
+  }
+
+  // 検索が実行されたらqueryを更新 -> SWRによって自動的にdata fetch
+  const handleSearch = (query: string) => {
+    setQuery(query)
   }
 
   // 記事詳細ページへの移動ボタンが押されたら、その記事のデータをatomに追加する
@@ -82,7 +90,19 @@ const QiitaItemsTable: FC<QiitaItemsTableProps> = ({ path }) => {
       size: 50,
     },
   ]
-  return <DataTable data={data} columns={columns} />
+  return (
+    <>
+      <Box my={2}>
+        <SearchForm handleSearch={handleSearch} />
+      </Box>
+      {query && (
+        <Box my={2}>
+          <p>{`${query}の検索結果だよ!!!`}</p>
+        </Box>
+      )}
+      <DataTable data={data} columns={columns} />
+    </>
+  )
 }
 
 export default QiitaItemsTable

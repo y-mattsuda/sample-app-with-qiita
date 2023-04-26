@@ -1,17 +1,18 @@
 'use client'
 
-import { ImageAvatar } from '@/components/Avatar'
+import { BackButton } from '@/components/Buttons'
 import Card from '@/components/Card'
 import Markdown from '@/components/Markdown'
 import { formatDate } from '@/lib'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer'
-import { Box, Typography } from '@mui/material'
+import { Avatar, Box, Typography } from '@mui/material'
 import { notFound } from 'next/navigation'
 import type { FC } from 'react'
 import { useQiitaItem } from './hooks'
 
 type QiitaItemProps = {
   id: string
+  tablePagePath: string
 }
 
 type QiitaItemHeaderProps = {
@@ -38,7 +39,7 @@ const QiitaItemHeader: FC<QiitaItemHeaderProps> = ({
   return (
     <>
       <Box display="flex" alignItems="center">
-        <ImageAvatar
+        <Avatar
           src={userImageUrl}
           alt={userId}
           sx={{ width: 24, height: 24 }}
@@ -66,23 +67,28 @@ const QiitaItemDetail: FC<QiitaItemDetailProps> = ({ content }) => {
   return <Markdown content={content} />
 }
 
-const QiitaItem: FC<QiitaItemProps> = ({ id }) => {
+const QiitaItem: FC<QiitaItemProps> = ({ id, tablePagePath }) => {
   const item = useQiitaItem(id)
   if (!item) {
     notFound()
   }
   return (
-    <Card>
-      <QiitaItemHeader
-        userImageUrl={item.user.profile_image_url}
-        userId={item.user.id}
-        createdAt={new Date(item.created_at)}
-        updatedAt={new Date(item.updated_at)}
-        title={item.title}
-        tags={item.tags.map((tag) => tag.name)}
-      />
-      <QiitaItemDetail content={item.body} />
-    </Card>
+    <>
+      <Box my={2}>
+        <BackButton link={tablePagePath} title="記事一覧ページへ" />
+      </Box>
+      <Card>
+        <QiitaItemHeader
+          userImageUrl={item.user.profile_image_url}
+          userId={item.user.id}
+          createdAt={new Date(item.created_at)}
+          updatedAt={new Date(item.updated_at)}
+          title={item.title}
+          tags={item.tags.map((tag) => tag.name)}
+        />
+        <QiitaItemDetail content={item.body} />
+      </Card>
+    </>
   )
 }
 

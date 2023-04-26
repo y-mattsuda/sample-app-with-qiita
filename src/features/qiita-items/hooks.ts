@@ -6,9 +6,9 @@ import type { QiitaItem } from './types'
 
 const QIITA_API_URL = 'https://qiita.com/api/v2'
 
-export const useQiitaItems = () => {
+export const useQiitaItems = (query: string) => {
   const { data, error, isLoading } = useSWR<QiitaItem[]>(
-    `${QIITA_API_URL}/items`,
+    `${QIITA_API_URL}/items?query=${query}`,
     fetcher
   )
   const rawData = data as QiitaItem[]

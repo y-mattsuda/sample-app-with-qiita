@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import 'katex/dist/katex.min.css'
 import type { FC } from 'react'
 import ReactMarkdown from 'react-markdown'

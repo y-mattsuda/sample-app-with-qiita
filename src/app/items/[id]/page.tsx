@@ -7,5 +7,5 @@ type ItemPageProps = {
 }
 
 export default function Item({ params: { id } }: ItemPageProps) {
-  return <QiitaItemDetail id={id} />
+  return <QiitaItemDetail id={id} tablePagePath="/items" />
 }

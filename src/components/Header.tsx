@@ -24,7 +24,7 @@ export type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar>
         <Typography variant="h6" component="div" flexGrow={1}>
           {title}
