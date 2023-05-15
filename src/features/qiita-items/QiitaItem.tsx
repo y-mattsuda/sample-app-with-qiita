@@ -3,11 +3,12 @@
 import { BackButton } from '@/components/Buttons'
 import Card from '@/components/Card'
 import Markdown from '@/components/Markdown'
+import Spinner from '@/components/Spinner'
 import { formatDate } from '@/lib'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer'
 import { Avatar, Box, Typography } from '@mui/material'
 import { notFound } from 'next/navigation'
-import type { FC } from 'react'
+import { FC, Suspense } from 'react'
 import { useQiitaItem } from './hooks'
 
 type QiitaItemProps = {
@@ -86,7 +87,9 @@ const QiitaItem: FC<QiitaItemProps> = ({ id, tablePagePath }) => {
           title={item.title}
           tags={item.tags.map((tag) => tag.name)}
         />
-        <QiitaItemDetail content={item.body} />
+        <Suspense fallback={<Spinner size={50} />}>
+          <QiitaItemDetail content={item.body} />
+        </Suspense>
       </Card>
     </>
   )
